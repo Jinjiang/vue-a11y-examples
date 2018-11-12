@@ -2,21 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Accordion from "./views/accordion.vue";
+import Alert from "./views/alert.vue";
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/accordion",
-      name: "accordion",
-      component: Accordion
-    },
+    { path: "/", name: "home", component: Home },
+    { path: "/accordion", name: "accordion", component: Accordion },
+    { path: "/alert", name: "alert", component: Alert },
     {
       path: "/about",
       name: "about",

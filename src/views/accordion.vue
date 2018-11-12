@@ -124,6 +124,7 @@ export default {
 <style>
 .accordion {
   border: 1px solid gray;
+  border-radius: 5px;
 }
 .accordion fieldset {
   border: none;
