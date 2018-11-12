@@ -13,11 +13,11 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 #nav {
   padding: 30px;
+  text-align: center;
 }
 
 #nav a {
@@ -27,5 +27,18 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+/* https://w3c.github.io/aria-practices/examples/css/core.css */
+kbd {
+  display: inline-block;
+  padding: 0.1em 0.3em;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 0.2em;
+  box-shadow: inset 0 -1px 0 #bbb;
 }
 </style>

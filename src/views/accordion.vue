@@ -1,53 +1,73 @@
 <template>
-  <div class="accordion">
-    <AccordionPair
-      title="Personal Information"
-      ref="item1"
-      :expanded="currentIndex === 0"
-      @trigger="currentIndex = 0;"
-      @keydown.native="keyTravel"
-    >
-      <fieldset>
-        <AccordionInput name="name" label="Name" required />
-        <AccordionInput name="email" label="Email" required />
-        <AccordionInput name="phone" label="Phone" />
-        <AccordionInput name="ext" label="Extension" />
-        <AccordionInput name="country" label="Country" />
-        <AccordionInput name="city_province" label="City/Province" />
-      </fieldset>
-    </AccordionPair>
+  <div>
+    <h1>Accordion Example</h1>
+    <div class="accordion">
+      <AccordionPair
+        title="Personal Information"
+        ref="item1"
+        :expanded="currentIndex === 0"
+        @trigger="currentIndex = 0;"
+        @keydown.native="keyTravel"
+      >
+        <fieldset>
+          <AccordionInput name="name" label="Name" required />
+          <AccordionInput name="email" label="Email" required />
+          <AccordionInput name="phone" label="Phone" />
+          <AccordionInput name="ext" label="Extension" />
+          <AccordionInput name="country" label="Country" />
+          <AccordionInput name="city_province" label="City/Province" />
+        </fieldset>
+      </AccordionPair>
 
-    <AccordionPair
-      title="Billing Address"
-      ref="item2"
-      :expanded="currentIndex === 1"
-      @trigger="currentIndex = 1;"
-      @keydown.native="keyTravel"
-    >
-      <fieldset>
-        <AccordionInput name="b-add1" label="Address 1" />
-        <AccordionInput name="b-add2" label="Address 1" />
-        <AccordionInput name="b-city" label="City" />
-        <AccordionInput name="b-state" label="State" />
-        <AccordionInput name="b-zip" label="Zip Code" />
-      </fieldset>
-    </AccordionPair>
+      <AccordionPair
+        title="Billing Address"
+        ref="item2"
+        :expanded="currentIndex === 1"
+        @trigger="currentIndex = 1;"
+        @keydown.native="keyTravel"
+      >
+        <fieldset>
+          <AccordionInput name="b-add1" label="Address 1" />
+          <AccordionInput name="b-add2" label="Address 1" />
+          <AccordionInput name="b-city" label="City" />
+          <AccordionInput name="b-state" label="State" />
+          <AccordionInput name="b-zip" label="Zip Code" />
+        </fieldset>
+      </AccordionPair>
 
-    <AccordionPair
-      title="Shipping Address"
-      ref="item3"
-      :expanded="currentIndex === 2"
-      @trigger="currentIndex = 2;"
-      @keydown.native="keyTravel"
-    >
-      <fieldset>
-        <AccordionInput name="m-add1" label="Address 1" />
-        <AccordionInput name="m-add2" label="Address 1" />
-        <AccordionInput name="m-city" label="City" />
-        <AccordionInput name="m-state" label="State" />
-        <AccordionInput name="m-zip" label="Zip Code" />
-      </fieldset>
-    </AccordionPair>
+      <AccordionPair
+        title="Shipping Address"
+        ref="item3"
+        :expanded="currentIndex === 2"
+        @trigger="currentIndex = 2;"
+        @keydown.native="keyTravel"
+      >
+        <fieldset>
+          <AccordionInput name="m-add1" label="Address 1" />
+          <AccordionInput name="m-add2" label="Address 1" />
+          <AccordionInput name="m-city" label="City" />
+          <AccordionInput name="m-state" label="State" />
+          <AccordionInput name="m-zip" label="Zip Code" />
+        </fieldset>
+      </AccordionPair>
+    </div>
+    <ol>
+      <li>
+        All accordion tabs and the inputs in each accordion panel are included
+        in the page <kbd>Tab</kbd> sequence
+      </li>
+      <li>
+        Supported <kbd>ArrowDown</kbd> and <kbd>ArrowUp</kbd> when an accordion
+        tab focused.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinId</code>,
+        <code>MixinKeyTravel</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -64,7 +84,9 @@ export default {
   data() {
     return {
       currentIndex: 0,
-      orientation: "vertical"
+      orientation: "vertical",
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/accordion/accordion.html"
     };
   },
   methods: {
