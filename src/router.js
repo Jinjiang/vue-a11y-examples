@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Accordion from "./views/accordion.vue";
 import Alert from "./views/alert.vue";
 import ModalDialog from "./views/modal-dialog.vue";
+import AlertDialog from "./views/alertdialog.vue";
 
 Vue.use(Router);
 
@@ -13,6 +14,7 @@ export default new Router({
     { path: "/accordion", name: "accordion", component: Accordion },
     { path: "/alert", name: "alert", component: Alert },
     { path: "/modal-dialog", name: "modal-dialog", component: ModalDialog },
+    { path: "/alertdialog", name: "alertdialog", component: AlertDialog },
     {
       path: "/about",
       name: "about",
