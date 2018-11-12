@@ -10,12 +10,12 @@
         @keydown.native="keyTravel"
       >
         <fieldset>
-          <AccordionInput name="name" label="Name" required />
-          <AccordionInput name="email" label="Email" required />
-          <AccordionInput name="phone" label="Phone" />
-          <AccordionInput name="ext" label="Extension" />
-          <AccordionInput name="country" label="Country" />
-          <AccordionInput name="city_province" label="City/Province" />
+          <VueInput name="name" label="Name" required />
+          <VueInput name="email" label="Email" required />
+          <VueInput name="phone" label="Phone" />
+          <VueInput name="ext" label="Extension" />
+          <VueInput name="country" label="Country" />
+          <VueInput name="city_province" label="City/Province" />
         </fieldset>
       </AccordionPair>
 
@@ -27,11 +27,11 @@
         @keydown.native="keyTravel"
       >
         <fieldset>
-          <AccordionInput name="b-add1" label="Address 1" />
-          <AccordionInput name="b-add2" label="Address 1" />
-          <AccordionInput name="b-city" label="City" />
-          <AccordionInput name="b-state" label="State" />
-          <AccordionInput name="b-zip" label="Zip Code" />
+          <VueInput name="b-add1" label="Address 1" />
+          <VueInput name="b-add2" label="Address 1" />
+          <VueInput name="b-city" label="City" />
+          <VueInput name="b-state" label="State" />
+          <VueInput name="b-zip" label="Zip Code" />
         </fieldset>
       </AccordionPair>
 
@@ -43,11 +43,11 @@
         @keydown.native="keyTravel"
       >
         <fieldset>
-          <AccordionInput name="m-add1" label="Address 1" />
-          <AccordionInput name="m-add2" label="Address 1" />
-          <AccordionInput name="m-city" label="City" />
-          <AccordionInput name="m-state" label="State" />
-          <AccordionInput name="m-zip" label="Zip Code" />
+          <VueInput name="m-add1" label="Address 1" />
+          <VueInput name="m-add2" label="Address 1" />
+          <VueInput name="m-city" label="City" />
+          <VueInput name="m-state" label="State" />
+          <VueInput name="m-zip" label="Zip Code" />
         </fieldset>
       </AccordionPair>
     </div>
@@ -74,12 +74,12 @@
 <script>
 import { MixinId, MixinKeyTravel } from "vue-a11y-utils";
 import AccordionPair from "../components/accordion-pair.vue";
-import AccordionInput from "../components/accordion-input.vue";
+import VueInput from "../components/input.vue";
 export default {
   mixins: [MixinId, MixinKeyTravel],
   components: {
     AccordionPair,
-    AccordionInput
+    VueInput
   },
   data() {
     return {

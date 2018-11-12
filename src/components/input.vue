@@ -6,6 +6,7 @@
     <VueAria :aria="{ required }">
       <input
         type="text"
+        ref="input"
         value=""
         :name="name"
         :id="`${localId}-input`"
@@ -20,6 +21,11 @@ import { VueAria, MixinId } from "vue-a11y-utils";
 export default {
   mixins: [MixinId],
   components: { VueAria },
-  props: { name: String, label: String, required: Boolean }
+  props: { name: String, label: String, required: Boolean },
+  methods: {
+    focus() {
+      this.$refs.input.focus();
+    }
+  }
 };
 </script>
