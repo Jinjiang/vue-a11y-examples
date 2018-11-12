@@ -26,7 +26,8 @@
     <VueAria
       role="region"
       :aria="{
-        labelledby: `${localId}-tab`
+        labelledby: `${localId}-tab`,
+        disabled: !expanded
       }"
     >
       <div :id="`${localId}-panel`" class="accordion-panel" v-show="expanded">

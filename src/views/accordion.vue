@@ -86,6 +86,14 @@ export default {
       const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : items.length - 1;
       items[prevIndex].focus();
     },
+    goFirst() {
+      const items = this.getKeyItems();
+      items[0].focus();
+    },
+    goLast() {
+      const items = this.getKeyItems();
+      items[items.length - 1].focus();
+    },
     fireAction() {}
   }
 };
