@@ -9,6 +9,7 @@ import Combobox from "./views/combobox.vue";
 import Listbox from "./views/listbox.vue";
 import ListboxRearrangeable from "./views/listbox-rearrangeable.vue";
 import Menubar from "./views/menubar.vue";
+import MenuButton from "./views/menu-button.vue";
 
 Vue.use(Router);
 
@@ -27,6 +28,7 @@ export default new Router({
       component: ListboxRearrangeable
     },
     { path: "/menubar", name: "menubar", component: Menubar },
+    { path: "/menu-button", name: "menu-button", component: MenuButton },
     {
       path: "/about",
       name: "about",
