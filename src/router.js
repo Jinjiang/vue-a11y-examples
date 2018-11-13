@@ -5,6 +5,7 @@ import Accordion from "./views/accordion.vue";
 import Alert from "./views/alert.vue";
 import ModalDialog from "./views/modal-dialog.vue";
 import AlertDialog from "./views/alertdialog.vue";
+import Combobox from "./views/combobox.vue";
 
 Vue.use(Router);
 
@@ -15,6 +16,7 @@ export default new Router({
     { path: "/alert", name: "alert", component: Alert },
     { path: "/modal-dialog", name: "modal-dialog", component: ModalDialog },
     { path: "/alertdialog", name: "alertdialog", component: AlertDialog },
+    { path: "/combobox", name: "combobox", component: Combobox },
     {
       path: "/about",
       name: "about",
