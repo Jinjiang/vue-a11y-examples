@@ -7,6 +7,7 @@ import ModalDialog from "./views/modal-dialog.vue";
 import AlertDialog from "./views/alertdialog.vue";
 import Combobox from "./views/combobox.vue";
 import Listbox from "./views/listbox.vue";
+import ListboxRearrangeable from "./views/listbox-rearrangeable.vue";
 
 Vue.use(Router);
 
@@ -19,6 +20,11 @@ export default new Router({
     { path: "/alertdialog", name: "alertdialog", component: AlertDialog },
     { path: "/combobox", name: "combobox", component: Combobox },
     { path: "/listbox", name: "listbox", component: Listbox },
+    {
+      path: "/listbox-rearrangeable",
+      name: "listbox-rearrangeable",
+      component: ListboxRearrangeable
+    },
     {
       path: "/about",
       name: "about",

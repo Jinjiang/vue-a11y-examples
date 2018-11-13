@@ -4,9 +4,16 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+    <VueLive> <router-view /> </VueLive>
   </div>
 </template>
+
+<script>
+import { VueLive } from "vue-a11y-utils";
+export default {
+  components: { VueLive }
+};
+</script>
 
 <style>
 #app {

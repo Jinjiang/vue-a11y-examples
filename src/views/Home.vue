@@ -9,6 +9,9 @@
       <router-link class="link" to="/alertdialog">Alert Dialog</router-link>
       <router-link class="link" to="/combobox">Combobox</router-link>
       <router-link class="link" to="/listbox">Listbox</router-link>
+      <router-link class="link" to="/listbox-rearrangeable"
+        >Listbox Rearrangeable</router-link
+      >
     </p>
   </div>
 </template>
