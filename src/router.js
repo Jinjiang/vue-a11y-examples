@@ -8,6 +8,7 @@ import AlertDialog from "./views/alertdialog.vue";
 import Combobox from "./views/combobox.vue";
 import Listbox from "./views/listbox.vue";
 import ListboxRearrangeable from "./views/listbox-rearrangeable.vue";
+import Menubar from "./views/menubar.vue";
 
 Vue.use(Router);
 
@@ -25,6 +26,7 @@ export default new Router({
       name: "listbox-rearrangeable",
       component: ListboxRearrangeable
     },
+    { path: "/menubar", name: "menubar", component: Menubar },
     {
       path: "/about",
       name: "about",

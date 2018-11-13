@@ -12,6 +12,7 @@
       <router-link class="link" to="/listbox-rearrangeable"
         >Listbox Rearrangeable</router-link
       >
+      <router-link class="link" to="/menubar">Menubar</router-link>
     </p>
   </div>
 </template>
