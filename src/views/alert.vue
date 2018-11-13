@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .alert {
   padding: 0.25em 0.5em;
   background-color: silver;

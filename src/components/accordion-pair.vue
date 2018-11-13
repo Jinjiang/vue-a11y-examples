@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .accordion-tab {
   background-color: silver;
   padding: 0.25em 0.5em;

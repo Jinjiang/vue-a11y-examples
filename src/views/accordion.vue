@@ -121,7 +121,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .accordion {
   border: 1px solid gray;
   border-radius: 5px;

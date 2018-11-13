@@ -264,7 +264,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .dialog-layer {
   position: fixed;
   top: 0;

@@ -200,7 +200,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .combobox-wrapper {
   position: relative;
 }

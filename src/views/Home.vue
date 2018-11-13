@@ -8,6 +8,7 @@
       <router-link class="link" to="/modal-dialog">Modal Dialog</router-link>
       <router-link class="link" to="/alertdialog">Alert Dialog</router-link>
       <router-link class="link" to="/combobox">Combobox</router-link>
+      <router-link class="link" to="/listbox">Listbox</router-link>
     </p>
   </div>
 </template>

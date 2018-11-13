@@ -112,7 +112,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .alert {
   position: fixed;
   top: 2em;
