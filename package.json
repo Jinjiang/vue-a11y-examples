@@ -1,12 +1,15 @@
 {
   "name": "vue-a11y-examples",
   "version": "0.1.0",
+  "description": "Examples for vue-a11y-utils",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "author": "Jinjiang <zhaojinjiang@me.com>",
+  "license": "MIT",
   "dependencies": {
     "vue": "^2.5.17",
     "vue-a11y-utils": "^0.3.3",
