@@ -14,6 +14,7 @@
       >
       <router-link class="link" to="/menubar">Menubar</router-link>
       <router-link class="link" to="/menu-button">Menu Button</router-link>
+      <router-link class="link" to="/treegrid">Treegrid</router-link>
     </p>
   </div>
 </template>
