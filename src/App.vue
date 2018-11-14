@@ -4,14 +4,16 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <VueLive> <router-view /> </VueLive>
+    <VueLive><router-view /></VueLive>
+    <KeyboardOver class="overlay" />
   </div>
 </template>
 
 <script>
 import { VueLive } from "vue-a11y-utils";
+import KeyboardOver from "vue-keyboard-over";
 export default {
-  components: { VueLive }
+  components: { VueLive, KeyboardOver }
 };
 </script>
 
@@ -47,5 +49,15 @@ kbd {
   border-bottom-color: #bbb;
   border-radius: 0.2em;
   box-shadow: inset 0 -1px 0 #bbb;
+}
+
+.overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 64px;
+  padding: 2em;
 }
 </style>

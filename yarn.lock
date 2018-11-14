@@ -7756,6 +7756,11 @@ vue-hot-reload-api@^2.3.0:
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
   integrity sha1-stPZVAKoEWAjgHg+pPVm64dVaaI=
 
+vue-keyboard-over@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/vue-keyboard-over/download/vue-keyboard-over-0.1.0.tgz#373f27c04d707ba176b3a1baa029b198c8b320ec"
+  integrity sha1-Nz8nwE1we6F2s6G6oCmxmMizIOw=
+
 vue-loader@^15.4.2:
   version "15.4.2"
   resolved "http://registry.npm.taobao.org/vue-loader/download/vue-loader-15.4.2.tgz#812bb26e447dd3b84c485eb634190d914ce125e2"
