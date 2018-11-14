@@ -1,5 +1,7 @@
 # Vue A11y Examples
 
+## Overview
+
 Some examples using [`vue-a11y-utils@0.3.3`](https://jinjiang.github.io/vue-a11y-utils/).
 
 The purpose I wrote this repo is to:
@@ -8,3 +10,21 @@ The purpose I wrote this repo is to:
 * for `vue-a11y-utils` users, provide use cases and code samples
 
 _All the examples are inspired from [W3C WAI-ARIA Authoring Practices](https://w3c.github.io/aria-practices/)._
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
+
+### Lints and fixes files
+```
+yarn run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
