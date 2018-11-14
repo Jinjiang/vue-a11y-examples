@@ -12,19 +12,29 @@ The purpose I wrote this repo is to:
 _All the examples are inspired from [W3C WAI-ARIA Authoring Practices](https://w3c.github.io/aria-practices/)._
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn run serve
 ```
 
 ### Lints and fixes files
+
 ```
 yarn run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Todo
+
+* deploy to github pages
+* rewrite examples using old MixinKeyTravel
+* rewrite examples using old VueFocusTrap
