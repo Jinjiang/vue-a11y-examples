@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "vue": "^2.5.17",
-    "vue-a11y-utils": "^0.4.1",
+    "vue-a11y-utils": "^0.5.0",
     "vue-keyboard-over": "^0.3.0",
     "vue-router": "^3.0.1"
   },

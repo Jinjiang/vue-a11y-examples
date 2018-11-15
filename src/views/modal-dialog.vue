@@ -1,13 +1,15 @@
 <template>
   <div>
-    <button @click="shown1 = true;">Add Delivery Address</button>
-    <div class="dialog-layer" v-show="shown1">
+    <button @click="open('dialog1');">Add Delivery Address</button>
+    <div
+      class="dialog-layer"
+      v-show="shown.dialog1 || shown.dialog2 || shown.dialog3"
+    >
       <VueFocusTrap
-        v-if="shown1"
+        v-if="shown.dialog1"
         ref="dialog1"
-        :disabled="activeDialogIndex !== 1"
-        @keydown.esc.native="shown1 = false;"
-        @goinit="focus('dialog1First');"
+        @keydown.esc.native="close('dialog1');"
+        @open="$event || focus('dialog1First');"
         @gofirst="focus('dialog1First');"
         @golast="focus('dialog1Last');"
       >
@@ -40,19 +42,20 @@
               </p>
             </div>
             <div>
-              <button @click="shown2 = true;">Verify Address</button>
+              <button @click="open('dialog2');">Verify Address</button>
               <button>Add</button>
-              <button ref="dialog1Last" @click="shown1 = false;">Cancel</button>
+              <button ref="dialog1Last" @click="close('dialog1');">
+                Cancel
+              </button>
             </div>
           </div>
         </VueAria>
       </VueFocusTrap>
       <VueFocusTrap
-        v-if="shown2"
+        v-if="shown.dialog2"
         ref="dialog2"
-        :disabled="activeDialogIndex !== 2"
-        @keydown.esc.native="shown2 = false;"
-        @goinit="focus('dialog2Init');"
+        @keydown.esc.native="close('dialog2');"
+        @open="$event || focus('dialog2Init');"
         @gofirst="focus('dialog2First');"
         @golast="focus('dialog2Last');"
       >
@@ -147,23 +150,24 @@
               </p>
             </div>
             <div>
-              <a href="#" ref="dialog2First" @click.prevent="shown3 = true;"
+              <a href="#" ref="dialog2First" @click.prevent="open('dialog3');"
                 >link to help</a
               >
-              <button @click="shown3 = true;">
+              <button @click="open('dialog3');">
                 accepting an alternative form
               </button>
-              <button ref="dialog2Last" @click="shown2 = false;">Close</button>
+              <button ref="dialog2Last" @click="close('dialog2');">
+                Close
+              </button>
             </div>
           </div>
         </VueAria>
       </VueFocusTrap>
       <VueFocusTrap
-        v-if="shown3"
+        v-if="shown.dialog3"
         ref="dialog3"
-        :disabled="activeDialogIndex !== 3"
-        @keydown.esc.native="shown3 = false;"
-        @goinit="focus('dialog3First');"
+        @keydown.esc.native="close('dialog3');"
+        @open="$event || focus('dialog3First');"
         @gofirst="focus('dialog3First');"
         @golast="focus('dialog3First');"
       >
@@ -182,7 +186,9 @@
               button is present for demonstration purposes only.
             </p>
             <div>
-              <button ref="dialog3First" @click="shown3 = false;">Close</button>
+              <button ref="dialog3First" @click="close('dialog3');">
+                Close
+              </button>
             </div>
           </div>
         </VueAria>
@@ -195,70 +201,32 @@
 import { VueFocusTrap, VueAria, MixinId } from "vue-a11y-utils";
 import VueInput from "../components/input.vue";
 
-const focusStack = [];
-
 export default {
   mixins: [MixinId],
   components: { VueFocusTrap, VueAria, VueInput },
   data() {
     return {
-      shown1: false,
-      shown2: false,
-      shown3: false,
-      activeDialogIndex: 0
+      shown: {
+        dialog1: false,
+        dialog2: false,
+        dialog3: false
+      }
     };
   },
-  watch: {
-    shown1(value) {
-      if (value) {
-        this.activeDialogIndex = 1;
-        focusStack.push(document.activeElement);
-        this.$nextTick(() => {
-          this.$refs.dialog1.$emit("goinit");
-        });
-      } else {
-        this.activeDialogIndex = 0;
-        const target = focusStack.pop();
-        this.$nextTick(() => {
-          target.focus();
-        });
-      }
-    },
-    shown2(value) {
-      if (value) {
-        this.activeDialogIndex = 2;
-        focusStack.push(document.activeElement);
-        this.$nextTick(() => {
-          this.$refs.dialog2.$emit("goinit");
-        });
-      } else {
-        this.activeDialogIndex = 1;
-        const target = focusStack.pop();
-        this.$nextTick(() => {
-          target.focus();
-        });
-      }
-    },
-    shown3(value) {
-      if (value) {
-        this.activeDialogIndex = 3;
-        focusStack.push(document.activeElement);
-        this.$nextTick(() => {
-          this.$refs.dialog3.$emit("goinit");
-        });
-      } else {
-        this.activeDialogIndex = 2;
-        const target = focusStack.pop();
-        this.$nextTick(() => {
-          target.focus();
-        });
-      }
-    }
-  },
   methods: {
-    focus(refName) {
-      const item = this.$refs[refName];
+    focus(name) {
+      const item = this.$refs[name];
       item.focus();
+    },
+    open(name) {
+      this.shown[name] = true;
+      setTimeout(() => {
+        this.$refs[name].open();
+      });
+    },
+    close(name) {
+      this.$refs[name].close(true);
+      this.shown[name] = false;
     }
   }
 };

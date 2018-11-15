@@ -17,7 +17,9 @@
         <button :disabled="text === saved" @click="save">Save</button>
       </VueAria>
       <VueAria :aria="{ controls: `${localId}-notes`, disabled: text === '' }">
-        <button :disabled="text === ''" @click="shown2 = true;">Discard</button>
+        <button :disabled="text === ''" @click="openAlertDialog">
+          Discard
+        </button>
       </VueAria>
     </p>
     <div v-if="shown1" role="alert" class="alert">Saved</div>
@@ -25,9 +27,8 @@
       <VueFocusTrap
         v-if="shown2"
         ref="dialog2"
-        :disabled="!shown2"
-        @keydown.esc.native="shown2 = false;"
-        @goinit="focus('dialog2First');"
+        @keydown.esc.native="closeAlertDialog"
+        @open="focus('dialog2First');"
         @gofirst="focus('dialog2First');"
         @golast="focus('dialog2Last');"
       >
@@ -45,8 +46,10 @@
               <p>Are you sure you want to discard all of your notes?</p>
             </div>
             <div>
-              <button ref="dialog2First" @click="shown2 = false;">No</button>
-              <button ref="dialog2Last" @click="(shown2 = false), discard();">
+              <button ref="dialog2First" @click="closeAlertDialog();">
+                No
+              </button>
+              <button ref="dialog2Last" @click="closeAlertDialog(), discard();">
                 Yes
               </button>
             </div>
@@ -104,9 +107,19 @@ export default {
     discard() {
       this.text = "";
     },
-    focus(refName) {
-      const item = this.$refs[refName];
+    focus(name) {
+      const item = this.$refs[name];
       item.focus();
+    },
+    openAlertDialog() {
+      this.shown2 = true;
+      setTimeout(() => {
+        this.$refs.dialog2.open();
+      });
+    },
+    closeAlertDialog() {
+      this.$refs.dialog2.close();
+      this.shown2 = false;
     }
   }
 };
