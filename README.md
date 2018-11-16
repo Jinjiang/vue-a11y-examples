@@ -32,9 +32,3 @@ yarn run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## Todo
-
-* deploy to github pages
-* rewrite examples using old MixinKeyTravel
-* rewrite examples using old VueFocusTrap

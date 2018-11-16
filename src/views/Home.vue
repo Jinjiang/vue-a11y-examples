@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="../assets/a11y.svg" />
     <h1>Vue A11y Utils Examples</h1>
     <p>
       <router-link class="link" to="/accordion">Accordion</router-link>
