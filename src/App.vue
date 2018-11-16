@@ -64,11 +64,10 @@ kbd {
 
 .overlay {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   font-size: 64px;
-  padding: 2em;
 }
 </style>
