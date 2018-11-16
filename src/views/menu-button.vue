@@ -15,7 +15,7 @@
           @click="navigationToggle"
           @mouseenter="navigationHoverOn"
           @mouseleave="navigationHoverOff"
-          @keydown="keyTravel"
+          @keydown="travel($event, 'navigation');"
         >
           WAI-ARIA Quick Links
         </button>
@@ -27,7 +27,7 @@
       >
         <ul
           :id="`${localId}-navigation-menu`"
-          @keydown="keyTravel"
+          @keydown="travel($event, 'navigation');"
           @mouseenter="navigationHoverOn"
           @mouseleave="navigationHoverOff"
         >
@@ -62,7 +62,7 @@
           @click="actionsToggle"
           @mouseenter="actionsHoverOn"
           @mouseleave="actionsHoverOff"
-          @keydown="keyTravel"
+          @keydown="travel($event, 'actions');"
         >
           Actions
         </button>
@@ -83,7 +83,7 @@
         <ul
           :id="`${localId}-actions-menu`"
           ref="actionsMenu"
-          @keydown="keyTravel"
+          @keydown="travel($event, 'actions');"
           @mouseenter="actionsHoverOn"
           @mouseleave="actionsHoverOff"
         >
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { VueAria, MixinKeyTravel, MixinId } from "vue-a11y-utils";
+import { VueAria, MixinTravel, MixinId } from "vue-a11y-utils";
 
 const NAV_OPTIONS = [
   { text: "W3C Home Page", link: "https://www.w3.org/" },
@@ -138,9 +138,73 @@ const NAV_OPTIONS = [
 ];
 const ACTIONS_OPTIONS = ["Action 1", "Action 2", "Action 3", "Action 4"];
 
+const travel = {
+  navigation: {
+    getItems(vm) {
+      return vm.navigation.options;
+    },
+    getIndex(vm) {
+      return vm.navigation.activeOptionIndex;
+    },
+    setIndex(vm, index) {
+      vm.navigation.activeOptionIndex = index;
+      setTimeout(() => {
+        vm.$refs.navigationItems[index].focus();
+      });
+    },
+    move(vm, event, newIndex, oldIndex, items) {
+      event.preventDefault();
+      if (oldIndex === -1) {
+        vm.navigation.shown = true;
+      }
+      let nextIndex = newIndex;
+      if (newIndex === -1) {
+        nextIndex = items.length - 1;
+      } else if (newIndex === items.length) {
+        nextIndex = 0;
+      }
+      this.setIndex(vm, nextIndex);
+    }
+  },
+  actions: {
+    getItems(vm) {
+      return vm.actions.options;
+    },
+    getIndex(vm) {
+      return vm.actions.activeOptionIndex;
+    },
+    setIndex(vm, index) {
+      vm.actions.activeOptionIndex = index;
+    },
+    move(vm, event, newIndex, oldIndex, items) {
+      event.preventDefault();
+      if (oldIndex === -1) {
+        vm.actions.shown = true;
+        setTimeout(() => {
+          vm.$refs.actionsMenu.focus();
+        });
+      }
+      let nextIndex = newIndex;
+      if (newIndex === -1) {
+        nextIndex = items.length - 1;
+      } else if (newIndex === items.length) {
+        nextIndex = 0;
+      }
+      this.setIndex(vm, nextIndex);
+    },
+    action(vm, event, index) {
+      if (index >= 0) {
+        event.preventDefault();
+        vm.actionSelect(index);
+      }
+    }
+  }
+};
+
 export default {
-  mixins: [MixinKeyTravel, MixinId],
+  mixins: [MixinTravel, MixinId],
   components: { VueAria },
+  travel,
   data() {
     return {
       navigation: {
@@ -190,11 +254,9 @@ export default {
       if (this.actions.shown) {
         setTimeout(() => {
           this.$refs.actionsMenu.focus();
-        });
+        }, 50); // set 50 ms to fix the error in Safari
       } else {
-        setTimeout(() => {
-          this.$refs.actionsButton.focus();
-        });
+        this.$refs.actionsButton.focus();
       }
     },
     actionsHoverOn() {
@@ -228,84 +290,6 @@ export default {
       setTimeout(() => {
         this.$refs.actionsButton.focus();
       });
-    },
-
-    getKeyHostName() {
-      const target = document.activeElement;
-      const { navigation, actions } = this.$refs;
-      if (navigation.contains(target)) {
-        return "navigation";
-      }
-      if (actions.contains(target)) {
-        return "actions";
-      }
-    },
-    getKeyItems() {
-      return this.$refs[`${this.getKeyHostName()}Items`] || [];
-    },
-    goNext(event) {
-      const hostName = this.getKeyHostName();
-      const host = this[hostName];
-      if (!host) {
-        return;
-      }
-      const { activeOptionIndex, options } = host;
-      event.preventDefault();
-      if (activeOptionIndex === -1) {
-        host.shown = true;
-        if (hostName === "actions") {
-          setTimeout(() => {
-            this.$refs.actionsMenu.focus();
-          });
-        }
-      }
-      if (activeOptionIndex === options.length - 1) {
-        host.activeOptionIndex = 0;
-      } else {
-        host.activeOptionIndex++;
-      }
-      if (hostName === "navigation") {
-        setTimeout(() => {
-          const items = this.getKeyItems();
-          items[host.activeOptionIndex].focus();
-        });
-      }
-      return true;
-    },
-    goPrev(event) {
-      const hostName = this.getKeyHostName();
-      const host = this[hostName];
-      if (!host) {
-        return;
-      }
-      const { activeOptionIndex, options } = host;
-      event.preventDefault();
-      if (activeOptionIndex === -1) {
-        host.shown = true;
-        if (hostName === "actions") {
-          setTimeout(() => {
-            this.$refs.actionsMenu.focus();
-          });
-        }
-      }
-      if (activeOptionIndex === 0) {
-        host.activeOptionIndex = options.length - 1;
-      } else {
-        host.activeOptionIndex--;
-      }
-      if (hostName === "navigation") {
-        setTimeout(() => {
-          const items = this.getKeyItems();
-          items[host.activeOptionIndex].focus();
-        });
-      }
-      return true;
-    },
-    goAction() {
-      if (this.getKeyHostName() === "actions") {
-        this.actionSelect(this.actions.activeOptionIndex);
-        return true;
-      }
     }
   }
 };

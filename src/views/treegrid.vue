@@ -1,7 +1,11 @@
 <template>
   <div>
     <VueAria role="treegrid" :aria="{ label: 'Inbox' }">
-      <table ref="table" class="table" @keydown="keyTravel">
+      <table
+        ref="table"
+        class="table"
+        @keydown="travel($event, 'column'), travel($event, 'row');"
+      >
         <VueAria
           v-for="(item, index) in list"
           :key="index"
@@ -12,10 +16,10 @@
             setsize: item.setsize,
             expanded: item.expanded
           }"
-          :tabindex="isCurrent(index, -1) ? 0 : -1"
+          :tabindex="isCurrent(index, 0) ? 0 : -1"
         >
           <tr ref="rows" v-show="!item.hidden">
-            <VueAria role="gridcell" :tabindex="isCurrent(index, 0) ? 0 : NaN">
+            <VueAria role="gridcell" :tabindex="isCurrent(index, 1) ? 0 : NaN">
               <td
                 ref="subjects"
                 :style="{ paddingLeft: `${item.level + 0.5}em` }"
@@ -36,14 +40,14 @@
                 ({{ item.posinset }} / {{ item.setsize }}) {{ item.subject }}
               </td>
             </VueAria>
-            <VueAria role="gridcell" :tabindex="isCurrent(index, 1) ? 0 : NaN">
+            <VueAria role="gridcell" :tabindex="isCurrent(index, 2) ? 0 : NaN">
               <td ref="summaries">{{ item.summary }}</td>
             </VueAria>
             <td role="gridcell">
               <a
                 ref="emails"
                 :href="`mailto:${item.email}`"
-                :tabindex="isCurrent(index, 2) ? 0 : NaN"
+                :tabindex="isCurrent(index, 3) ? 0 : NaN"
               >
                 {{ item.email }}
               </a>
@@ -56,7 +60,7 @@
 </template>
 
 <script>
-import { VueAria, MixinKeyTravel } from "vue-a11y-utils";
+import { VueAria, MixinTravel } from "vue-a11y-utils";
 
 const EMAIL_LIST = [
   {
@@ -135,14 +139,89 @@ function flatten(target = [], list = [], level = 1) {
   return list;
 }
 
+const travel = {
+  column: {
+    orientation: "horizontal",
+    getItems() {
+      return ["rows", "subjects", "summaries", "emails"];
+    },
+    getIndex(vm) {
+      return vm.columnIndex;
+    },
+    setIndex(vm, index) {
+      vm.columnIndex = index;
+      vm.updateFocus();
+    },
+    move(vm, event, newIndex, oldIndex) {
+      event.preventDefault();
+      const rowData = vm.list[vm.rowIndex];
+      if (newIndex === -1 && oldIndex === 0) {
+        if (rowData.hasChildren && rowData.expanded) {
+          vm.toggle(vm.rowIndex);
+        }
+        return;
+      }
+      if (
+        newIndex === 1 &&
+        oldIndex === 0 &&
+        rowData.hasChildren &&
+        !rowData.expanded
+      ) {
+        vm.toggle(vm.rowIndex);
+        return;
+      }
+      if (newIndex > 3) {
+        return;
+      }
+      this.setIndex(vm, newIndex);
+    },
+    action(vm, event, index) {
+      const rowData = vm.list[vm.rowIndex];
+      if (rowData.hasChildren && index === 1) {
+        event.preventDefault();
+        vm.toggle(vm.rowIndex);
+      }
+      if (index === 0) {
+        event.preventDefault();
+        alert(`See "${rowData.subject}"!`);
+      }
+    }
+  },
+  row: {
+    getItems(vm) {
+      return vm.list.filter(item => !item.hidden);
+    },
+    getIndex(vm) {
+      const visibleItems = this.getItems(vm);
+      const { rowIndex, list } = vm;
+      return visibleItems.indexOf(list[rowIndex]);
+    },
+    setIndex(vm, index) {
+      const visibleItems = this.getItems(vm);
+      const { list } = vm;
+      const rowIndex = list.indexOf(visibleItems[index]);
+      vm.rowIndex = rowIndex;
+      vm.updateFocus();
+    },
+    move(vm, event, newIndex, oldIndex, items) {
+      event.preventDefault();
+      if (newIndex === -1 || newIndex === items.length) {
+        return;
+      }
+      this.setIndex(vm, newIndex);
+    }
+  }
+};
+
 export default {
-  mixins: [MixinKeyTravel],
+  mixins: [MixinTravel],
   components: { VueAria },
+  travel,
   data() {
     return {
       list: flatten(EMAIL_LIST),
       rowIndex: 0,
-      columnIndex: -1
+      columnIndex: 0
     };
   },
   methods: {
@@ -198,101 +277,24 @@ export default {
     isCurrent(rowIndex, columnIndex) {
       return this.rowIndex === rowIndex && this.columnIndex === columnIndex;
     },
+
     updateFocus() {
       const { rowIndex, columnIndex } = this;
       setTimeout(() => {
         switch (columnIndex) {
-          case 0:
+          case 1:
             this.$refs.subjects[rowIndex].focus();
             break;
-          case 1:
+          case 2:
             this.$refs.summaries[rowIndex].focus();
             break;
-          case 2:
+          case 3:
             this.$refs.emails[rowIndex].focus();
             break;
           default:
             this.$refs.rows[rowIndex].focus();
         }
       });
-    },
-    getKeyItems() {
-      return this.$refs.rows;
-    },
-    goNext(event) {
-      if (event.key === "ArrowRight") {
-        if (this.columnIndex < 2) {
-          const item = this.list[this.rowIndex];
-          if (this.columnIndex === -1 && item.hasChildren && !item.expanded) {
-            this.toggle(this.rowIndex);
-            event.preventDefault();
-            return true;
-          } else {
-            this.columnIndex++;
-            this.updateFocus();
-            event.preventDefault();
-            return true;
-          }
-        }
-      } else {
-        let nextRowIndex = this.rowIndex;
-        if (nextRowIndex < this.list.length - 1) {
-          nextRowIndex++;
-          while (
-            nextRowIndex < this.list.length &&
-            this.list[nextRowIndex].hidden
-          ) {
-            nextRowIndex++;
-          }
-          if (nextRowIndex < this.list.length) {
-            this.rowIndex = nextRowIndex;
-            this.updateFocus();
-            event.preventDefault();
-            return true;
-          }
-        }
-      }
-    },
-    goPrev(event) {
-      if (event.key === "ArrowLeft") {
-        const item = this.list[this.rowIndex];
-        if (this.columnIndex === -1 && item.hasChildren && item.expanded) {
-          this.toggle(this.rowIndex);
-          event.preventDefault();
-          return true;
-        } else if (this.columnIndex >= 0) {
-          this.columnIndex--;
-          this.updateFocus();
-          event.preventDefault();
-          return true;
-        }
-      } else {
-        let prevRowIndex = this.rowIndex;
-        if (prevRowIndex > 0) {
-          prevRowIndex--;
-          while (prevRowIndex >= 0 && this.list[prevRowIndex].hidden) {
-            prevRowIndex--;
-          }
-          if (prevRowIndex >= 0) {
-            this.rowIndex = prevRowIndex;
-            this.updateFocus();
-            event.preventDefault();
-            return true;
-          }
-        }
-      }
-    },
-    goAction(event) {
-      if (this.columnIndex === 0) {
-        this.toggle(this.rowIndex);
-        event.preventDefault();
-        return true;
-      }
-      if (this.columnIndex === -1) {
-        alert(`See "${this.list[this.rowIndex].subject}"!`);
-        event.preventDefault();
-        return true;
-      }
     }
   }
 };
