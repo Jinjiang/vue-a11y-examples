@@ -14,7 +14,7 @@
               : ''
         }"
       >
-        <ul class="listbox" ref="listbox" @keydown="keyTravel">
+        <ul class="listbox" ref="listbox" @keydown="travel">
           <VueAria
             v-for="(text, index) in options"
             :key="index"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { MixinId, MixinKeyTravel, VueAria } from "vue-a11y-utils";
+import { MixinId, MixinTravel, VueAria } from "vue-a11y-utils";
 
 const OPTIONS = [
   "Neptunium",
@@ -67,50 +67,36 @@ const OPTIONS = [
   "Oganesson"
 ];
 
+const travel = {
+  getItems(vm) {
+    return vm.$refs.options;
+  },
+  getIndex(vm) {
+    return vm.activeOptionIndex;
+  },
+  setIndex(vm, index) {
+    const items = this.getItems(vm);
+    vm.activeOptionIndex = index;
+    items[index].scrollIntoView();
+  },
+  move(vm, event, newIndex, oldIndex, items) {
+    event.preventDefault();
+    if (newIndex === -1 || newIndex === items.length) {
+      return;
+    }
+    this.setIndex(vm, newIndex);
+  }
+};
+
 export default {
-  mixins: [MixinId, MixinKeyTravel],
+  mixins: [MixinId, MixinTravel],
   components: { VueAria },
+  travel,
   data() {
     return {
       options: OPTIONS,
       activeOptionIndex: -1
     };
-  },
-  methods: {
-    getKeyItems() {
-      return this.$refs.options;
-    },
-    goNext() {
-      const options = this.getKeyItems();
-      const length = options.length;
-      if (!length) {
-        return;
-      }
-      const { activeOptionIndex } = this;
-      if (activeOptionIndex < 0 || activeOptionIndex === length - 1) {
-        this.activeOptionIndex = 0;
-      } else {
-        this.activeOptionIndex++;
-      }
-      options[this.activeOptionIndex].scrollIntoView();
-      return true;
-    },
-    goPrev() {
-      const options = this.getKeyItems();
-      const length = options.length;
-      if (!length) {
-        return;
-      }
-      const { activeOptionIndex } = this;
-      if (activeOptionIndex <= 0) {
-        this.activeOptionIndex = length - 1;
-      } else {
-        this.activeOptionIndex--;
-      }
-      options[this.activeOptionIndex].scrollIntoView();
-      return true;
-    },
-    fireAction() {}
   }
 };
 </script>
