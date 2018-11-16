@@ -1,8 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" role="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link class="link" to="/accordion">Accordion</router-link> |
+      <router-link class="link" to="/alert">Alert</router-link> |
+      <router-link class="link" to="/modal-dialog">Modal Dialog</router-link> |
+      <router-link class="link" to="/alertdialog">Alert Dialog</router-link> |
+      <router-link class="link" to="/combobox">Combobox</router-link> |
+      <router-link class="link" to="/listbox">Listbox</router-link> |
+      <router-link class="link" to="/listbox-rearrangeable"
+        >Listbox Rearrangeable</router-link
+      >
+      | <router-link class="link" to="/menubar">Menubar</router-link> |
+      <router-link class="link" to="/menu-button">Menu Button</router-link> |
+      <router-link class="link" to="/treegrid">Treegrid</router-link>
     </div>
     <VueLive><router-view /></VueLive>
     <KeyboardOver class="overlay" />

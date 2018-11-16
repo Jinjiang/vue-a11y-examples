@@ -1,8 +1,9 @@
 <template>
   <div>
-    <!-- navigation -->
-    <!-- @todo: A-Z a-z ESC -->
-    <div ref="navigation">
+    <h1>Menu Button Examples</h1>
+    <h2>First example: navigation menu button</h2>
+    <div ref="navigation" class="content">
+      <!-- @todo: A-Z a-z ESC -->
       <VueAria
         :aria="{
           haspopup: true,
@@ -35,6 +36,7 @@
             role="none"
             v-for="(item, index) in navigation.options"
             :key="index"
+            :class="{ selected: index === navigation.activeOptionIndex }"
           >
             <a
               role="menuitem"
@@ -47,8 +49,10 @@
         </ul>
       </VueAria>
     </div>
-    <!-- activedescendant -->
-    <div ref="actions">
+    <h2>
+      Second example: menu button using <code>aria-activedescendant</code>
+    </h2>
+    <div ref="actions" class="content">
       <VueAria
         :aria="{
           haspopup: true,
@@ -96,9 +100,7 @@
             <li
               :id="`${localId}-actions-option-${index}`"
               class="action"
-              :class="{
-                'action-selected': index === actions.activeOptionIndex
-              }"
+              :class="{ selected: index === actions.activeOptionIndex }"
               @click="actionSelect(index);"
             >
               {{ item }}
@@ -107,6 +109,30 @@
         </ul>
       </VueAria>
     </div>
+    <h2>Description</h2>
+    <ol>
+      <li>
+        When focused on one of the button or the menu, you can use
+        <kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> to travel around.
+      </li>
+      <li>
+        You can choose a menu item by clicking or pressing the
+        <kbd>ENTER</kbd> key.
+      </li>
+      <li>
+        The first menu buttons is implemented by multi-focusable items. Each
+        menu item could be focused. And the second menu button is implemented by
+        one focusable menu and a <code>aria-activedescendant</code> attribute
+        which is pointed to the active menu item.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinTravel</code>,
+        <code>MixinId</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -221,7 +247,9 @@ export default {
         shown: false,
         activeOptionIndex: -1,
         lastAction: ""
-      }
+      },
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/menu-button/menu-button-links.html"
     };
   },
   methods: {
@@ -296,10 +324,25 @@ export default {
 </script>
 
 <style scoped>
-.action:hover {
-  background-color: gray;
+.content {
+  position: relative;
 }
-.action-selected {
+.content ul {
+  position: absolute;
+  top: 100%;
   background-color: silver;
+  margin: 0;
+  padding: 0.25em 0.5em;
+  list-style: none;
+  z-index: 2;
+}
+.content ul a {
+  display: block;
+}
+.content li:hover {
+  background-color: #f0f0f0;
+}
+.content li.selected {
+  background-color: gray;
 }
 </style>

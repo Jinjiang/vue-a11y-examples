@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Scrollable Listbox Example</h1>
     <p>Choose your favorite transuranic element (actinide or transactinide).</p>
     <div>
       <span :id="`${localId}-label`">Transuranium elements:</span>
@@ -8,10 +9,7 @@
         :tabindex="0"
         :aria="{
           labelledby: `${localId}-label`,
-          activedescendant:
-            activeOptionIndex >= 0
-              ? `${localId}-option-${activeOptionIndex}`
-              : ''
+          activedescendant: current >= 0 ? `${localId}-option-${current}` : ''
         }"
       >
         <ul class="listbox" ref="listbox" @keydown="travel">
@@ -19,12 +17,12 @@
             v-for="(text, index) in options"
             :key="index"
             role="option"
-            :aria="{ selected: index === activeOptionIndex }"
+            :aria="{ selected: index === current }"
           >
             <li
               :id="`${localId}-option-${index}`"
               ref="options"
-              :class="{ 'option-selected': index === activeOptionIndex }"
+              :class="{ 'option-selected': index === current }"
             >
               {{ text }}
             </li>
@@ -32,6 +30,19 @@
         </ul>
       </VueAria>
     </div>
+    <ol>
+      <li>
+        When focused on one of the listbox, you can use <kbd>ArrowUp</kbd> and
+        <kbd>ArrowDown</kbd> to travel around.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinTravel</code>,
+        <code>MixinId</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -72,11 +83,11 @@ const travel = {
     return vm.$refs.options;
   },
   getIndex(vm) {
-    return vm.activeOptionIndex;
+    return vm.current;
   },
   setIndex(vm, index) {
     const items = this.getItems(vm);
-    vm.activeOptionIndex = index;
+    vm.current = index;
     items[index].scrollIntoView();
   },
   move(vm, event, newIndex, oldIndex, items) {
@@ -95,7 +106,9 @@ export default {
   data() {
     return {
       options: OPTIONS,
-      activeOptionIndex: -1
+      current: -1,
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/listbox/listbox-scrollable.html"
     };
   }
 };

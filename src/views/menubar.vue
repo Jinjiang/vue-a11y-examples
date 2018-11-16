@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>
+    <h1>Menubar Example</h1>
+    <div class="content">
+      <!-- todo: menubar as the first level -->
       <nav aria-label="Mythical University">
         <VueAria role="menubar">
           <VueMenu
@@ -13,6 +15,27 @@
         </VueAria>
       </nav>
     </div>
+    <ol>
+      <li>
+        You can use <kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> to travel around
+        the current menu level.
+      </li>
+      <li>
+        You can use <kbd>ArrowLeft</kbd> or <kbd>ENTER</kbd> to go up a level
+        menu or <kbd>ArrowRight</kbd> to go to a deeper level menu.
+      </li>
+      <li>
+        You can press <kbd>ENTER</kbd> key when focus a leaf item to fire
+        action.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinTravel</code>,
+        <code>MixinShortcuts</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -81,7 +104,9 @@ export default {
   components: { VueAria, VueMenu },
   data() {
     return {
-      menutree: MENUTREE
+      menutree: MENUTREE,
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/menubar/menubar-1/menubar-1.html"
     };
   },
   methods: {
@@ -91,5 +116,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

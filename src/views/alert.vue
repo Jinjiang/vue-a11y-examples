@@ -1,12 +1,14 @@
 <template>
   <div>
     <h1>Alert Example</h1>
-    <button @click="shown = true;">Trigger Alert</button>
-    <div class="alert" role="alert">
-      <p v-if="shown">
-        <span lang="da">Hej</span>, hello, <span lang="it">ciao</span>,
-        <span lang="ja">こんにちは</span>, <span lang="ko">안녕</span>
-      </p>
+    <div>
+      <button @click="shown = true;">Trigger Alert</button>
+      <div class="alert" role="alert">
+        <p v-if="shown">
+          <span lang="da">Hej</span>, hello, <span lang="it">ciao</span>,
+          <span lang="ja">こんにちは</span>, <span lang="ko">안녕</span>
+        </p>
+      </div>
     </div>
     <ol>
       <li>

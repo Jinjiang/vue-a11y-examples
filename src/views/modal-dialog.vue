@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Modal Dialog Example</h1>
     <button @click="open('dialog1');">Add Delivery Address</button>
     <div
       class="dialog-layer"
@@ -8,7 +9,7 @@
       <VueFocusTrap
         v-if="shown.dialog1"
         ref="dialog1"
-        @keydown.esc.native="close('dialog1');"
+        @keydown.esc.native.prevent="close('dialog1');"
         @open="$event || focus('dialog1First');"
         @gofirst="focus('dialog1First');"
         @golast="focus('dialog1Last');"
@@ -54,7 +55,7 @@
       <VueFocusTrap
         v-if="shown.dialog2"
         ref="dialog2"
-        @keydown.esc.native="close('dialog2');"
+        @keydown.esc.native.prevent="close('dialog2');"
         @open="$event || focus('dialog2Init');"
         @gofirst="focus('dialog2First');"
         @golast="focus('dialog2Last');"
@@ -166,7 +167,7 @@
       <VueFocusTrap
         v-if="shown.dialog3"
         ref="dialog3"
-        @keydown.esc.native="close('dialog3');"
+        @keydown.esc.native.prevent="close('dialog3');"
         @open="$event || focus('dialog3First');"
         @gofirst="focus('dialog3First');"
         @golast="focus('dialog3First');"
@@ -194,6 +195,24 @@
         </VueAria>
       </VueFocusTrap>
     </div>
+    <ol>
+      <li>You can freely open/close any modal dialogs without losing focus.</li>
+      <li>
+        Everything actionable in the current active modal dialog is always in
+        the <kbd>TAB</kbd> sequence.
+      </li>
+      <li>
+        You can use <kbd>ESC</kbd> key to close the current modal dialog
+        quickly.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>,
+        <code>&lt;VueFocusTrap&gt;</code>, <code>MixinId</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -210,7 +229,9 @@ export default {
         dialog1: false,
         dialog2: false,
         dialog3: false
-      }
+      },
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/dialog-modal/dialog.html"
     };
   },
   methods: {
@@ -222,7 +243,7 @@ export default {
       this.shown[name] = true;
       setTimeout(() => {
         this.$refs[name].open();
-      });
+      }, 50);
     },
     close(name) {
       this.$refs[name].close(true);

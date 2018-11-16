@@ -1,45 +1,72 @@
 <template>
   <div>
-    <label :id="`${localId}-label`" :for="`${localId}-input`"
-      >Choice 1 Fruit or Vegetable</label
-    >
-    <div class="combobox-wrapper">
-      <div
-        :id="`${localId}-combobox`"
-        class="combobox"
-        role="combobox"
-        v-aria="aria.combobox"
-      >
-        <input
-          :id="`${localId}-input`"
-          class="input"
-          v-aria="aria.input"
-          v-model="value"
-          @focus="focused = true;"
-          @blur="focused = false;"
-          @keydown="travel"
-        />
-      </div>
-      <ul
-        v-if="focused && list.length"
-        :id="`${localId}-listbox`"
-        class="listbox"
-        role="listbox"
-        v-aria="aria.listbox"
-      >
-        <li
-          v-for="(veggie, index) in list"
-          :key="index"
-          ref="options"
-          role="option"
-          :id="`${localId}-option-${index}`"
-          :class="{ 'option-selected': index === activeOptionIndex }"
-          v-aria="{ selected: index === activeOptionIndex }"
+    <h1>Combobox Example</h1>
+    <div>
+      <label :id="`${localId}-label`" :for="`${localId}-input`">
+        Choice a Fruit or Vegetable
+      </label>
+      <div class="combobox-wrapper">
+        <div
+          :id="`${localId}-combobox`"
+          class="combobox"
+          role="combobox"
+          v-aria="aria.combobox"
         >
-          {{ veggie }}
-        </li>
-      </ul>
+          <input
+            ref="input"
+            :id="`${localId}-input`"
+            class="input"
+            v-aria="aria.input"
+            v-model="value"
+            @focus="focus"
+            @blur="blur"
+            @keydown="travel"
+          />
+        </div>
+        <ul
+          v-if="focused && list.length"
+          :id="`${localId}-listbox`"
+          ref="listbox"
+          class="listbox"
+          role="listbox"
+          v-aria="aria.listbox"
+        >
+          <li
+            v-for="(veggie, index) in list"
+            :key="index"
+            role="option"
+            tabindex="-1"
+            :id="`${localId}-option-${index}`"
+            :class="{ selected: index === activeOptionIndex }"
+            v-aria="{ selected: index === activeOptionIndex }"
+            @mousedown="choose(veggie);"
+          >
+            {{ veggie }}
+          </li>
+        </ul>
+      </div>
     </div>
+    <ol>
+      <li>
+        When type any letter(s) in the textbox, a matched words list will be
+        poped up below.
+      </li>
+      <li>
+        You can travel all the words listed below by <kbd>ArrowUp</kbd> and
+        <kbd>ArrowDown</kbd>.
+      </li>
+      <li>
+        You can also press <kbd>ENTER</kbd> key to choose the current word you
+        traveled to.
+      </li>
+      <li>
+        Related utils: <code>v-aria</code> directive, <code>MixinTravel</code>,
+        <code>MixinId</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -66,7 +93,7 @@ const travel = {
     }
     this.setIndex(vm, nextIndex);
   },
-  action(vm, event, index, items) {
+  enter(vm, event, index, items) {
     event.preventDefault();
     const value = items[index];
     if (value) {
@@ -151,15 +178,11 @@ export default {
       expanded: false,
       activeOptionIndex: -1,
       value: "",
-      focused: false
+      focused: false,
+      focusTimer: 0,
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/combobox/aria1.1pattern/listbox-combo.html"
     };
-  },
-  watch: {
-    focused(value) {
-      if (!value) {
-        this.activeOptionIndex = -1;
-      }
-    }
   },
   computed: {
     aria() {
@@ -188,6 +211,23 @@ export default {
           veggie.length > value.length
       );
     }
+  },
+  methods: {
+    focus() {
+      clearTimeout(this.focusTimer);
+      this.focused = true;
+    },
+    blur() {
+      clearTimeout(this.focusTimer);
+      this.activeOptionIndex = -1;
+      this.focusTimer = setTimeout(() => {
+        this.focused = false;
+      }, 50);
+    },
+    choose(value) {
+      this.value = value;
+      this.$refs.input.focus();
+    }
   }
 };
 </script>
@@ -208,7 +248,8 @@ export default {
 .listbox > li {
   padding: 0.25em 0.5em;
 }
-.listbox > li.option-selected {
+.listbox > li.selected,
+.listbox > li:hover {
   background-color: gray;
 }
 </style>

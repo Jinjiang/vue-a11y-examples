@@ -54,7 +54,7 @@
     <ol>
       <li>
         All accordion tabs and the inputs in each accordion panel are included
-        in the page <kbd>Tab</kbd> sequence
+        in the page <kbd>Tab</kbd> sequence.
       </li>
       <li>
         Supported <kbd>ArrowDown</kbd> and <kbd>ArrowUp</kbd> when an accordion
@@ -62,7 +62,7 @@
       </li>
       <li>
         Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinId</code>,
-        <code>MixinKeyTravel</code>.
+        <code>MixinTravel</code>.
       </li>
       <li>
         Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>

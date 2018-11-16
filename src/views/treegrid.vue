@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Treegrid Example</h1>
     <VueAria role="treegrid" :aria="{ label: 'Inbox' }">
       <table
         ref="table"
@@ -56,6 +57,27 @@
         </VueAria>
       </table>
     </VueAria>
+    <ol>
+      <li>
+        You can use <kbd>Arrow</kbd> keys to travel around the whole tree grid.
+        For examples focusing every rows and every cells, expanding/collapsing
+        every email thread.
+      </li>
+      <li>
+        You can press <kbd>ENTER</kbd> key to fire an action when you focus on a
+        row.
+      </li>
+      <li>
+        You can press <kbd>ENTER</kbd> key to expand/collapse a email thread
+        when you focus on the first column of it.
+      </li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>, <code>MixinTravel</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -221,7 +243,9 @@ export default {
     return {
       list: flatten(EMAIL_LIST),
       rowIndex: 0,
-      columnIndex: 0
+      columnIndex: 0,
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/treegrid/treegrid-1.html"
     };
   },
   methods: {

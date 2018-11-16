@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Rearrangeable Listbox Example</h1>
     <p>
       Rank features important to you when choosing where to live. If a feature
       is unimportant, move it to the unimportant features list.
@@ -89,6 +90,38 @@
         </VueAria>
       </div>
     </div>
+    <ol>
+      <li>
+        When focused on one of the two listboxs, you can use
+        <kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> to travel around.
+      </li>
+      <li>
+        When focused on one of the 3 buttons under the left listbox, you can use
+        <kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> to travel around the button
+        group.
+      </li>
+      <li>
+        When focused on the left listbox, you can use shortcuts:
+        <kbd>ArrowUp</kbd> + <kbd>Alt/Option</kbd> to move the item up,
+        <kbd>ArrowDown</kbd> + <kbd>Alt/Option</kbd> to move the item down, or
+        <kbd>ArrowRight</kbd> + <kbd>Alt/Option</kbd> to move the item to the
+        right listbox.
+      </li>
+      <li>
+        When focused on the right listbox, you can use shortcut:
+        <kbd>ArrowLeft</kbd> + <kbd>Alt/Option</kbd> to move the item to the
+        left listbox.
+      </li>
+      <li>Any updates will be announced politely through a screen reader.</li>
+      <li>
+        Related utils: <code>&lt;VueAria&gt;</code>,
+        <code>&lt;VueLive&gt;</code>, <code>MixinShortcuts</code>,
+        <code>MixinTravel</code>, <code>MixinId</code>.
+      </li>
+      <li>
+        Ref: <a :href="w3cLink" target="_blank">{{ w3cLink }}</a>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -176,43 +209,45 @@ const travelOption = {
   }
 };
 
+const shortcutsOption = {
+  listboxLeft: [
+    {
+      key: "up",
+      modifiers: { alt: true },
+      handle(event) {
+        return this.moveUp(event);
+      }
+    },
+    {
+      key: "down",
+      modifiers: { alt: true },
+      handle(event) {
+        return this.moveDown(event);
+      }
+    },
+    {
+      key: "right",
+      modifiers: { alt: true },
+      handle(event) {
+        return this.moveRight(event);
+      }
+    }
+  ],
+  listboxRight: {
+    key: "left",
+    modifiers: { alt: true },
+    handle(event) {
+      return this.moveLeft(event);
+    }
+  }
+};
+
 export default {
   inject: ["announce"],
   mixins: [MixinId, MixinTravel, MixinShortcuts],
   components: { VueAria },
   travel: travelOption,
-  shortcuts: {
-    listboxLeft: [
-      {
-        key: "up",
-        modifiers: { alt: true },
-        handle(event) {
-          return this.moveUp(event);
-        }
-      },
-      {
-        key: "down",
-        modifiers: { alt: true },
-        handle(event) {
-          return this.moveDown(event);
-        }
-      },
-      {
-        key: "right",
-        modifiers: { alt: true },
-        handle(event) {
-          return this.moveRight(event);
-        }
-      }
-    ],
-    listboxRight: {
-      key: "left",
-      modifiers: { alt: true },
-      handle(event) {
-        return this.moveLeft(event);
-      }
-    }
-  },
+  shortcuts: shortcutsOption,
   data() {
     return {
       orientation: "vertical",
@@ -221,7 +256,9 @@ export default {
       rightOptions: [],
       activeLeftOptionIndex: -1,
       activeRightOptionIndex: -1,
-      activeButtonIndex: 0
+      activeButtonIndex: 0,
+      w3cLink:
+        "https://w3c.github.io/aria-practices/examples/listbox/listbox-rearrangeable.html"
     };
   },
   computed: {
@@ -386,6 +423,9 @@ export default {
 }
 .content > * {
   flex: 1;
+}
+.content > * + * {
+  margin-left: 1em;
 }
 .content button[aria-disabled="true"] {
   color: silver;
