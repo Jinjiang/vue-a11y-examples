@@ -7715,10 +7715,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-a11y-utils@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/vue-a11y-utils/-/vue-a11y-utils-0.5.0.tgz#81afda74d86bb34a5ef280c6ce94fb18271a6423"
-  integrity sha1-ga/adNhrs0pe8oDGzpT7GCcaZCM=
+vue-a11y-utils@^0.6.0:
+  version "0.6.0"
+  resolved "http://registry.npm.taobao.org/vue-a11y-utils/download/vue-a11y-utils-0.6.0.tgz#f973795701d7eb5bb3828589cd0c9878aa449edd"
+  integrity sha1-+XN5VwHX61uzgoWJzQyYeKpEnt0=
   dependencies:
     vue-class-component "^6.3.2"
 

@@ -5,7 +5,7 @@
       <table
         ref="table"
         class="table"
-        @keydown="travel($event, 'column'), travel($event, 'row');"
+        @keydown="bindTravel($event, 'column'), bindTravel($event, 'row');"
       >
         <VueAria
           v-for="(item, index) in list"
@@ -161,7 +161,7 @@ function flatten(target = [], list = [], level = 1) {
   return list;
 }
 
-const travel = {
+const travelOption = {
   column: {
     orientation: "horizontal",
     getItems() {
@@ -238,7 +238,7 @@ const travel = {
 export default {
   mixins: [MixinTravel],
   components: { VueAria },
-  travel,
+  $travel: travelOption,
   data() {
     return {
       list: flatten(EMAIL_LIST),
@@ -318,7 +318,7 @@ export default {
           default:
             this.$refs.rows[rowIndex].focus();
         }
-      });
+      }, 50);
     }
   }
 };

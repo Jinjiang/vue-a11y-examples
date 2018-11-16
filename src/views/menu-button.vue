@@ -16,7 +16,7 @@
           @click="navigationToggle"
           @mouseenter="navigationHoverOn"
           @mouseleave="navigationHoverOff"
-          @keydown="travel($event, 'navigation');"
+          @keydown="bindTravel($event, 'navigation');"
         >
           WAI-ARIA Quick Links
         </button>
@@ -28,7 +28,7 @@
       >
         <ul
           :id="`${localId}-navigation-menu`"
-          @keydown="travel($event, 'navigation');"
+          @keydown="bindTravel($event, 'navigation');"
           @mouseenter="navigationHoverOn"
           @mouseleave="navigationHoverOff"
         >
@@ -66,7 +66,7 @@
           @click="actionsToggle"
           @mouseenter="actionsHoverOn"
           @mouseleave="actionsHoverOff"
-          @keydown="travel($event, 'actions');"
+          @keydown="bindTravel($event, 'actions');"
         >
           Actions
         </button>
@@ -87,7 +87,7 @@
         <ul
           :id="`${localId}-actions-menu`"
           ref="actionsMenu"
-          @keydown="travel($event, 'actions');"
+          @keydown="bindTravel($event, 'actions');"
           @mouseenter="actionsHoverOn"
           @mouseleave="actionsHoverOff"
         >
@@ -164,7 +164,7 @@ const NAV_OPTIONS = [
 ];
 const ACTIONS_OPTIONS = ["Action 1", "Action 2", "Action 3", "Action 4"];
 
-const travel = {
+const travelOption = {
   navigation: {
     getItems(vm) {
       return vm.navigation.options;
@@ -176,7 +176,7 @@ const travel = {
       vm.navigation.activeOptionIndex = index;
       setTimeout(() => {
         vm.$refs.navigationItems[index].focus();
-      });
+      }, 50);
     },
     move(vm, event, newIndex, oldIndex, items) {
       event.preventDefault();
@@ -208,7 +208,7 @@ const travel = {
         vm.actions.shown = true;
         setTimeout(() => {
           vm.$refs.actionsMenu.focus();
-        });
+        }, 50);
       }
       let nextIndex = newIndex;
       if (newIndex === -1) {
@@ -230,7 +230,7 @@ const travel = {
 export default {
   mixins: [MixinTravel, MixinId],
   components: { VueAria },
-  travel,
+  $travel: travelOption,
   data() {
     return {
       navigation: {

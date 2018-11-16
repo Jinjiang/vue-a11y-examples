@@ -12,7 +12,7 @@
           activedescendant: current >= 0 ? `${localId}-option-${current}` : ''
         }"
       >
-        <ul class="listbox" ref="listbox" @keydown="travel">
+        <ul class="listbox" ref="listbox" @keydown="bindTravel">
           <VueAria
             v-for="(text, index) in options"
             :key="index"
@@ -78,7 +78,7 @@ const OPTIONS = [
   "Oganesson"
 ];
 
-const travel = {
+const travelOption = {
   getItems(vm) {
     return vm.$refs.options;
   },
@@ -102,7 +102,7 @@ const travel = {
 export default {
   mixins: [MixinId, MixinTravel],
   components: { VueAria },
-  travel,
+  $travel: travelOption,
   data() {
     return {
       options: OPTIONS,

@@ -20,7 +20,7 @@
             v-model="value"
             @focus="focus"
             @blur="blur"
-            @keydown="travel"
+            @keydown="bindTravel"
           />
         </div>
         <ul
@@ -73,7 +73,7 @@
 <script>
 import { MixinId, MixinTravel, directiveAria } from "vue-a11y-utils";
 
-const travel = {
+const travelOption = {
   getItems(vm) {
     return vm.list;
   },
@@ -172,7 +172,7 @@ const FRUITS_AND_VEGGIES = [
 export default {
   mixins: [MixinId, MixinTravel],
   directives: { aria: directiveAria },
-  travel,
+  $travel: travelOption,
   data() {
     return {
       expanded: false,

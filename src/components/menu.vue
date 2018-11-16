@@ -1,6 +1,6 @@
 <template>
   <VueAria role="menu" :aria="{ label: text }">
-    <ul @keydown="travel($event), bindShortcut($event, 'menu');">
+    <ul @keydown="bindTravel($event), bindShortcut($event, 'menu');">
       <template v-for="(item, index) in items">
         <li v-if="item.type !== 'separator'" :key="index" role="none">
           <VueAria
@@ -32,7 +32,7 @@
 <script>
 import { VueAria, MixinTravel, MixinShortcuts } from "vue-a11y-utils";
 
-const travel = {
+const travelOption = {
   getItems(vm) {
     return vm.getItems();
   },
@@ -56,7 +56,7 @@ const travel = {
   }
 };
 
-const shortcuts = [
+const shortcutsOption = [
   {
     key: "left",
     handle(event) {
@@ -88,8 +88,8 @@ export default {
   name: "VueMenu",
   mixins: [MixinTravel, MixinShortcuts],
   components: { VueAria },
-  travel,
-  shortcuts,
+  $travel: travelOption,
+  $shortcuts: shortcutsOption,
   props: {
     text: String,
     items: Array // { text, value, type, checked, items[] }

@@ -13,7 +13,7 @@
             ref="leftListbox"
             class="listbox"
             @keydown="
-              travel($event, 'listboxLeft'),
+              bindTravel($event, 'listboxLeft'),
                 bindShortcut($event, 'listboxLeft');
             "
           >
@@ -34,7 +34,7 @@
           </ul>
         </VueAria>
         <VueAria role="toolbar" :aria="{ label: 'Actions' }">
-          <div @keydown="travel($event, 'toolbar');">
+          <div @keydown="bindTravel($event, 'toolbar');">
             <VueAria
               :aria="aria.buttonUp"
               :tabindex="activeButtonIndex === 0 ? 0 : -1"
@@ -65,7 +65,7 @@
             ref="rightListbox"
             class="listbox"
             @keydown="
-              travel($event, 'listboxRight'),
+              bindTravel($event, 'listboxRight'),
                 bindShortcut($event, 'listboxRight');
             "
           >
@@ -246,8 +246,8 @@ export default {
   inject: ["announce"],
   mixins: [MixinId, MixinTravel, MixinShortcuts],
   components: { VueAria },
-  travel: travelOption,
-  shortcuts: shortcutsOption,
+  $travel: travelOption,
+  $shortcuts: shortcutsOption,
   data() {
     return {
       orientation: "vertical",

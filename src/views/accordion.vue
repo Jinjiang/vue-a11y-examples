@@ -7,7 +7,7 @@
         ref="item1"
         :expanded="currentIndex === 0"
         @trigger="currentIndex = 0;"
-        @keydown.native="travel"
+        @keydown.native="bindTravel"
       >
         <fieldset>
           <VueInput name="name" label="Name" required />
@@ -24,7 +24,7 @@
         ref="item2"
         :expanded="currentIndex === 1"
         @trigger="currentIndex = 1;"
-        @keydown.native="travel"
+        @keydown.native="bindTravel"
       >
         <fieldset>
           <VueInput name="b-add1" label="Address 1" />
@@ -40,7 +40,7 @@
         ref="item3"
         :expanded="currentIndex === 2"
         @trigger="currentIndex = 2;"
-        @keydown.native="travel"
+        @keydown.native="bindTravel"
       >
         <fieldset>
           <VueInput name="m-add1" label="Address 1" />
@@ -107,7 +107,7 @@ export default {
     AccordionPair,
     VueInput
   },
-  travel: travelConfig,
+  $travel: travelConfig,
   data() {
     return {
       currentIndex: 0,
