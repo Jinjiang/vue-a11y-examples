@@ -2,7 +2,7 @@
 
 ## Overview
 
-Some examples using [`vue-a11y-utils@0.3.3`](https://jinjiang.github.io/vue-a11y-utils/).
+Some examples using [`vue-a11y-utils@0.5.0+`](https://jinjiang.github.io/vue-a11y-utils/).
 
 The purpose I wrote this repo is to:
 
