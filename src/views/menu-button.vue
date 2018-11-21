@@ -3,7 +3,7 @@
     <h1>Menu Button Examples</h1>
     <h2>First example: navigation menu button</h2>
     <div ref="navigation" class="content">
-      <!-- @todo: A-Z a-z ESC -->
+      <!-- @todo: search -->
       <VueAria
         :aria="{
           haspopup: true,
@@ -13,6 +13,7 @@
       >
         <button
           :id="`${localId}-navigation-button`"
+          ref="navigationButton"
           @click="navigationToggle"
           @mouseenter="navigationHoverOn"
           @mouseleave="navigationHoverOff"
@@ -174,9 +175,13 @@ const travelOption = {
     },
     setIndex(vm, index) {
       vm.navigation.activeOptionIndex = index;
-      setTimeout(() => {
-        vm.$refs.navigationItems[index].focus();
-      }, 50);
+      if (index >= 0) {
+        setTimeout(() => {
+          vm.$refs.navigationItems[index].focus();
+        }, 50);
+      } else {
+        vm.$refs.navigationButton.focus();
+      }
     },
     move(vm, event, newIndex, oldIndex, items) {
       event.preventDefault();
@@ -190,6 +195,11 @@ const travelOption = {
         nextIndex = 0;
       }
       this.setIndex(vm, nextIndex);
+    },
+    esc(vm, event) {
+      event.preventDefault();
+      this.setIndex(vm, -1);
+      vm.navigationToggle();
     }
   },
   actions: {
@@ -223,6 +233,11 @@ const travelOption = {
         event.preventDefault();
         vm.actionSelect(index);
       }
+    },
+    esc(vm, event) {
+      event.preventDefault();
+      this.setIndex(vm, -1);
+      vm.actionsToggle();
     }
   }
 };
