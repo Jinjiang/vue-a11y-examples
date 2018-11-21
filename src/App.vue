@@ -1,19 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav" role="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link class="link" to="/accordion">Accordion</router-link> |
-      <router-link class="link" to="/alert">Alert</router-link> |
-      <router-link class="link" to="/modal-dialog">Modal Dialog</router-link> |
-      <router-link class="link" to="/alertdialog">Alert Dialog</router-link> |
-      <router-link class="link" to="/combobox">Combobox</router-link> |
-      <router-link class="link" to="/listbox">Listbox</router-link> |
-      <router-link class="link" to="/listbox-rearrangeable"
-        >Listbox Rearrangeable</router-link
-      >
-      | <router-link class="link" to="/menubar">Menubar</router-link> |
-      <router-link class="link" to="/menu-button">Menu Button</router-link> |
-      <router-link class="link" to="/treegrid">Treegrid</router-link>
+    <div id="nav" role="nav" @keydown="bindTravel">
+      <template v-for="(route, index) in routes">
+        <VueAria
+          :key="index"
+          :aria="{ current: isCurrent(route) ? 'page' : false }"
+          :tabindex="index === focusedIndex ? 0 : -1"
+        >
+          <router-link
+            ref="links"
+            :to="route.to"
+            :class="{ 'router-link-exact-active': isCurrent(route) }"
+            @click.native="focusedIndex = index;"
+            >{{ route.title }}</router-link
+          >
+        </VueAria>
+        <template v-if="index !== routes.length - 1">
+          |
+        </template>
+      </template>
     </div>
     <VueLive><router-view /></VueLive>
     <KeyboardOver class="overlay" />
@@ -21,10 +26,53 @@
 </template>
 
 <script>
-import { VueLive } from "vue-a11y-utils";
+import { VueLive, VueAria, MixinTravel } from "vue-a11y-utils";
 import KeyboardOver from "vue-keyboard-over";
+const travelOption = {
+  orientation: "horizontal",
+  looped: true,
+  getItems(vm) {
+    return vm.$refs.links;
+  },
+  getIndex(vm) {
+    return vm.focusedIndex;
+  },
+  setIndex(vm, index, items) {
+    vm.focusedIndex = index;
+    items[index].$el.focus();
+  },
+  move(vm, event, newIndex, oldIndex, items) {
+    event.preventDefault();
+    this.setIndex(vm, newIndex, items);
+  }
+};
 export default {
-  components: { VueLive, KeyboardOver }
+  components: { VueLive, VueAria, KeyboardOver },
+  mixins: [MixinTravel],
+  $travel: travelOption,
+  data() {
+    return {
+      focusedIndex: 0,
+      routes: [
+        { to: "/", title: "Home" },
+        { to: "/accordion", title: "Accordion" },
+        { to: "/alert", title: "Alert" },
+        { to: "/modal-dialog", title: "Modal Dialog" },
+        { to: "/alertdialog", title: "Alert Dialog" },
+        { to: "/combobox", title: "Combobox" },
+        { to: "/listbox", title: "Listbox" },
+        { to: "/listbox-rearrangeable", title: "Listbox Rearrangeable" },
+        { to: "/menubar", title: "Menubar" },
+        { to: "/menu-button", title: "Menu Button" },
+        { to: "/treegrid", title: "Treegrid" }
+      ]
+    };
+  },
+  methods: {
+    isCurrent(route) {
+      return route.to === this.$router.currentRoute.path;
+    }
+  }
 };
 </script>
 
