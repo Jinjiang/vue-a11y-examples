@@ -4,14 +4,14 @@ specifiers:
   vite: ^3.1.8
   vite-plugin-vue2: ^2.0.2
   vue: ^2.6.10
-  vue-a11y-utils: ^0.6.2
+  vue-a11y-utils: ^0.8.0
   vue-keyboard-over: ^0.4.1
   vue-router: ^3.0.1
   vue-template-compiler: ^2.6.10
 
 dependencies:
   vue: 2.7.13
-  vue-a11y-utils: 0.6.2
+  vue-a11y-utils: 0.8.0
   vue-keyboard-over: 0.4.1
   vue-router: 3.6.5_vue@2.7.13
 
@@ -1763,14 +1763,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vue-a11y-utils/0.6.2:
-    resolution: {integrity: sha512-pWMIZF1BVb5MKPMU5L0bTxOTIta0Yw4Dx6jq5vNNP2F7t9SHg/U6x8re7Uk4Gs9xR40A//u/OpfhjQWrHX8cJw==}
-    dependencies:
-      vue-class-component: 6.3.2
-    dev: false
-
-  /vue-class-component/6.3.2:
-    resolution: {integrity: sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==}
+  /vue-a11y-utils/0.8.0:
+    resolution: {integrity: sha512-SCOHq53iTVMFuLqnSBSg3pNrBMUqi5WKepPB3aJozXvVG0V3EQOSljpS3N2mH/v+GtdgwIlT8tUKk0/55QvEpQ==}
     dev: false
 
   /vue-keyboard-over/0.4.1:
